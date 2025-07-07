@@ -35,8 +35,8 @@ input {
   z-index: 1000;
   padding: 1rem;
   flex-wrap: nowrap;
-  padding-left: 53%;
-  padding-right: 53%;
+  padding-left: 50%;
+  padding-right: 58%;
 }
 
 .input-group,
