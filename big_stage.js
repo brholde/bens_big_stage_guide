@@ -1113,11 +1113,11 @@ const stageLayouts = {
         "5"
       ],
       [
-        "4",
-        "7",
-        "4",
-        "7",
-        "4"
+        "3",
+        "1",
+        "3",
+        "1",
+        "3"
       ],
       [
         "5",
@@ -1127,11 +1127,11 @@ const stageLayouts = {
         "5"
       ],
       [
-        "3",
-        "1",
-        "3",
-        "1",
-        "3"
+        "4",
+        "7",
+        "4",
+        "7",
+        "4"
       ]
     ]
   }
@@ -1162,38 +1162,76 @@ function findClosestMatch(inputWidth, inputLength) {
 }
 
 function findLayout() {
-    const length = document.getElementById("length").value;
-    const width = document.getElementById("width").value;
+    const lengthInput = parseInt(document.getElementById("length").value);
+    const widthInput = parseInt(document.getElementById("width").value);
     const resultElement = document.getElementById("result");
 
-    let layout = null;
-    let foundExact = false;
-
-    // Try both orientations for exact match
-    if (stageLayouts[width] && stageLayouts[width][length]) {
-        layout = stageLayouts[width][length];
-        foundExact = true;
-    } else if (stageLayouts[length] && stageLayouts[length][width]) {
-        layout = stageLayouts[length][width];
-        foundExact = true;
+    if (!lengthInput || !widthInput) {
+        resultElement.textContent = "Enter valid dimensions.";
+        return;
     }
+
+    let layout = stageLayouts[widthInput]?.[lengthInput] || stageLayouts[lengthInput]?.[widthInput];
+    let usedWidth = widthInput;
+    let usedLength = lengthInput;
 
     if (!layout) {
-        const closest = findClosestMatch(parseInt(width), parseInt(length));
-        if (closest) {
-            layout = stageLayouts[closest.width][closest.length];
-            const formatted = layout.map(row => row.join(" ")).join("\n");
-            resultElement.textContent =
-                `No exact layout found for ${width}x${length}.\n` +
-                `Showing closest match: ${closest.width}x${closest.length}\n\n` +
-                formatted;
-        } else {
-            resultElement.textContent = "No layout found.";
+        const closest = findClosestMatch(widthInput, lengthInput);
+        if (!closest) {
+            resultElement.textContent = "No layout found for that size.";
+            return;
         }
-    } else {
-        const formatted = layout.map(row => row.join(" ")).join("\n");
-        resultElement.textContent = formatted;
+        usedWidth = parseInt(closest.width);
+        usedLength = parseInt(closest.length);
+        layout = stageLayouts[closest.width][closest.length];
     }
+
+    // Estimate grid size in pixels (rough guess: assume 200px natural max size per image)
+    const rows = layout.length;
+    const cols = Math.max(...layout.map(row => row.length));
+    const maxImageSize = 300;
+
+    const totalWidth = cols * maxImageSize;
+    const totalHeight = rows * maxImageSize;
+
+    // Get available space (container width)
+    const containerWidth = document.querySelector('.container').clientWidth;
+    const scaleX = containerWidth / totalWidth;
+    const maxScale = Math.min(scaleX, 1);  // Never scale up, only down
+
+    // Create the layout grid
+    const grid = document.createElement("div");
+    grid.className = "layout-grid";
+    grid.style.setProperty('--scale', maxScale);
+
+    layout.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "layout-row";
+
+        row.forEach(cell => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "layout-image-wrapper";
+
+            const img = document.createElement("img");
+            img.src = `images/${cell}.png`;
+            img.alt = cell;
+            img.className = "layout-image";
+
+            wrapper.appendChild(img);
+            rowDiv.appendChild(wrapper);
+        });
+
+        grid.appendChild(rowDiv);
+    });
+
+
+
+    resultElement.innerHTML = `
+        <div style="margin-bottom: 10px; margin-top: 50px; font-weight: bold;">
+            Layout for: ${usedLength} ft x ${usedWidth} ft
+        </div>
+    `;
+    resultElement.appendChild(grid);
 }
 
 function debounce(func, delay) {

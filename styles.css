@@ -2,22 +2,39 @@ body {
     font-family: sans-serif;
     padding: 2rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30vh;
+    justify-content: center; /* center horizontally */
+    align-items: flex-start; /* align top, not centered vertically */
+    min-height: 100vh;       /* allow full viewport height */
     margin: 0;
+    box-sizing: border-box;
+    flex-direction: column;  /* stack children vertically */
+}
+
+input {
+  width: 55em;
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: center;
 }
 
 .container {
     text-align: center;
+    max-width: 900px;   /* optional max width for better layout */
+    width: 100%;
+    margin: 0 auto;     /* center container */
 }
 
 .input-length {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1000;
+  padding: 1rem;
+  flex-wrap: nowrap; /* Prevent wrapping */
 }
 
 .input-group,
@@ -32,8 +49,8 @@ body {
     text-align: left;
     display: block;
     margin-right: 1.25vw;
+    font-size: 1.75rem;
 }
-
 
 .input-row {
     display: flex;
@@ -54,7 +71,7 @@ input {
 }
 
 .unit {
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 pre {
@@ -63,3 +80,49 @@ pre {
     border-radius: 5px;
     margin-top: 1rem;
 }
+
+#result {
+  text-align: center;
+  justify-content: center;
+}
+
+.layout-grid {
+  display: inline-block;
+  transform-origin: top left;
+  transform: scale(var(--scale, 1));
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+}
+
+.layout-row {
+  display: flex;
+  text-align: center;
+  justify-self: center;
+}
+
+.layout-image-wrapper {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  flex-shrink: 0;
+}
+
+.layout-image {
+  max-width: 100%;
+  max-height: 86%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
+}
+
