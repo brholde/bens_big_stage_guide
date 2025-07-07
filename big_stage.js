@@ -1162,6 +1162,7 @@ function findClosestMatch(inputWidth, inputLength) {
 }
 
 function findLayout() {
+    let possibleLayout = true;
     const lengthInput = parseInt(document.getElementById("length").value);
     const widthInput = parseInt(document.getElementById("width").value);
     const resultElement = document.getElementById("result");
@@ -1176,6 +1177,7 @@ function findLayout() {
     let usedLength = lengthInput;
 
     if (!layout) {
+        possibleLayout = false;
         const closest = findClosestMatch(widthInput, lengthInput);
         if (!closest) {
             resultElement.textContent = "No layout found for that size.";
@@ -1227,11 +1229,18 @@ function findLayout() {
 
 
     resultElement.innerHTML = `
-        <div style="margin-bottom: 10px; margin-top: 50px; font-weight: bold;">
+        <div id="dimension-label" style="margin-bottom: 10px; margin-top: 50px; font-weight: bold;">
             Layout for: ${usedLength} ft x ${usedWidth} ft
         </div>
     `;
     resultElement.appendChild(grid);
+
+    if (!possibleLayout) {
+        document.getElementById("dimension-label").style.color = "red";
+        document.getElementById("dimension-label").innerText = `Could not find an exact match, showing results instead for ${usedLength} ft x ${usedWidth} ft`;
+    } else {
+        document.getElementById("dimension-label").style.color = "green";
+    }
 }
 
 function debounce(func, delay) {
