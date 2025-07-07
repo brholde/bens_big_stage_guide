@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Ben's Big Stage Layout Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ben's Big Stage Layout Guide</h1>
+
+        <div class="input-length">
+            <div class="input-group">
+                <label for="length">Length</label>
+                <div class="input-row">
+                    <input type="number" id="length" min="0" max="300" value="8"/>
+                    <span class="unit">ft</span>
+                </div>
+            </div>
+
+            <div class="x-symbol">x</div>
+
+            <div class="input-width">
+                <label for="width">Width</label>
+                <div class="input-row">
+                    <input type="number" id="width" min="0" max="300" value="8"/>
+                    <span class="unit">ft</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="result">Enter values and adjust dimensions</div>
+    </div>
+
+    <script src="big_stage.js"></script>
+</body>
+</html>

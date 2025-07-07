@@ -4,14 +4,13 @@ body {
     display: flex;
     justify-content: center; /* center horizontally */
     align-items: flex-start; /* align top, not centered vertically */
-    min-height: 100vh;       /* allow full viewport height */
     margin: 0;
     box-sizing: border-box;
     flex-direction: column;  /* stack children vertically */
 }
 
 input {
-  width: 55em;
+  width: 80em;
   font-size: 1.5rem;
   padding: 1rem;
   text-align: center;
@@ -19,14 +18,15 @@ input {
 
 .container {
     text-align: center;
-    max-width: 900px;   /* optional max width for better layout */
+    display: block;
+    max-width: 50em;
     width: 100%;
-    margin: 0 auto;     /* center container */
+    margin: 0 auto;
+    margin-top: 0;
 }
 
 .input-length {
   display: flex;
-  align-items: flex-end;
   justify-content: center;
   gap: 1rem;
   position: sticky;
@@ -34,7 +34,9 @@ input {
   background: white;
   z-index: 1000;
   padding: 1rem;
-  flex-wrap: nowrap; /* Prevent wrapping */
+  flex-wrap: nowrap;
+  padding-left: 53%;
+  padding-right: 53%;
 }
 
 .input-group,
@@ -48,7 +50,7 @@ input {
 .input-width label {
     text-align: left;
     display: block;
-    margin-right: 1.25vw;
+    margin-right: 1vw;
     font-size: 1.75rem;
 }
 
